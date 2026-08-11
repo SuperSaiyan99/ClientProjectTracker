@@ -13,7 +13,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
-    // REST API Endpoints under /projects
+    // REST API Endpoints under /projects as per requirements
     Route::get('/projects/meta', [ProjectController::class, 'meta']);
     Route::get('/projects', [ProjectController::class, 'index']);
     Route::get('/projects/{id}', [ProjectController::class, 'show']);

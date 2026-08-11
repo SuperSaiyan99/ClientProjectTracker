@@ -13,17 +13,17 @@ A full-stack web application to manage agency client projects. Built with Larave
 - Authentication: Laravel Auth (Fortify / Session)
 - Database: SQLite (default)
 
-### Database Note
-The app uses SQLite by default (`database/database.sqlite`). You can switch to MySQL or PostgreSQL by changing your `.env` file:
+### Database Configuration
+
+The application uses SQLite by default for fast, zero-configuration local setup.
+
+Your `.env` file is pre-configured for SQLite:
 
 ```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=client_project_tracker
-DB_USERNAME=root
-DB_PASSWORD=
+DB_CONNECTION=sqlite
 ```
+
+Note: If you prefer using MySQL or PostgreSQL, you can easily change `DB_CONNECTION` and database credentials in your `.env` file.
 
 ---
 
@@ -123,3 +123,9 @@ Run TypeScript type checking:
 ```bash
 npm run types:check
 ```
+
+---
+
+## Reflection
+
+For my reflection, please refer to [REFLECTION.md](./REFLECTION.md).

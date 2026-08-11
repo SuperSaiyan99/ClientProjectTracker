@@ -44,7 +44,7 @@ class ProjectController extends Controller
             $query->where('priority', $request->query('priority'));
         }
 
-        // Search query across client_name, project_name, and description
+        // Search query across client_name, project_name, and description.
         if ($request->filled('search')) {
             $search = $request->query('search');
             $query->where(function ($q) use ($search) {
