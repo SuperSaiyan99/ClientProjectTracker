@@ -1,17 +1,31 @@
-# Technical Reflection - Client Project Tracker
+# Reflection Notes - Client Project Tracker
 
-### 1. Why this stack (Laravel + Vue.js + DaisyUI) vs alternatives?
-Laravel with Vue 3 and Inertia.js provides an unmatched developer experience for modern full-stack web applications. Inertia allows us to leverage Vue 3's reactive, componentized UI without the overhead of client-side routing state duplication or OAuth token ceremony, while consuming a clean RESTful Laravel backend API (`/api/projects`). Combining DaisyUI component primitives with Lucide Vue icons and the Laravel starter kit layout produces an executive-grade dashboard UI with instant dark/light appearance toggles out of the box.
+### 1. Why I Chose This Tech Stack (Laravel + Vue.js + DaisyUI)
+I chose Laravel with Vue 3 and Inertia.js because it makes building full-stack apps very fast and clean. Inertia connects Laravel to Vue components directly, so we don't need complex frontend state managers or separate API routers. Using DaisyUI with TailwindCSS helped build clean UI components like modals, badges, and search inputs with automatic dark mode support.
 
-### 2. One architectural tradeoff made and why
-I implemented per-user foreign key scoping (`user_id`) at both the Eloquent database model and API controller layer. The query builder restricts all project queries to `$request->user()->projects()`. This tradeoff ensures strict multi-tenant data boundaries while keeping API endpoints clean and consistent across session requests.
+### 2. Architectural Tradeoffs
+I attached every project to a specific user (`user_id`). In the backend, every query is scoped to `$request->user()->projects()`. This guarantees that users can never see or touch another user's data. The tradeoff is that projects are private to each user account instead of being shared across team members.
 
-### 3. One design decision explaining why the UI looks the way it does
-I moved the dashboard inside the Laravel starter kit's `AppLayout` with a collapsible sidebar, breadcrumb navigation, and user avatar menu. The design combines DaisyUI component primitives (badges, modals, selects, skeleton loaders) with Lucide Vue icons and elevated metric cards. Semantic badge colors (`badge-info`, `badge-warning`, `badge-neutral`, `badge-success`) provide clear visual hierarchy for statuses and priorities.
+### 3. Design Decisions
+I built the dashboard inside Laravel's main layout so it includes a sidebar, header breadcrumbs, and user profile menu. I used colored badges for Status and Priority so users can quickly see project progress (Planning, In Progress, On Hold, Completed). I also added a 1.5-second delay when typing in the search box so it doesn't overload the server while typing.
 
-### 4. What I'd add with more time
-With additional time, I would containerize the application using **Docker & Docker Compose** (packaging PHP-FPM, Nginx, Node, and SQLite/PostgreSQL into single-command setup) and expand the Pest PHP test suite to include E2E Cypress/Playwright browser automation testing for interactive Vue form submissions and modal transitions.
+### 4. Assumptions Made in This Project
+- **User Ownership**: We assume each project belongs to the user who created it. Each logged-in user only sees their own project records.
+- **Database**: SQLite is used by default for simple setup, but the backend is built so it can easily switch to MySQL or PostgreSQL.
+- **Seed Data**: We assumed the 12 sample projects from `test_data.json` should automatically attach to the main demo account (`admin@kodakollectiv.com`).
+- **Date Rules**: Start dates and due dates are required, and the due date must always be on or after the start date (`due_date >= start_date`).
 
-### 5. Known edge cases handled vs deliberately deferred
-- **Handled**: Per-user project isolation (User A cannot view, update, or delete User B's projects, returning HTTP 404), as well as strict date sequencing validation (`due_date >= start_date`) with inline 422 field error display.
-- **Deferred**: Server-side pagination. Given the initial 12 seed records per user, all filtered records are returned in a single JSON payload. For datasets exceeding 1,000 projects, server-side pagination with infinite scrolling would be implemented.
+### 5. Known Edge Cases Handled vs Deferred
+- **Handled**: 
+  - Users cannot view, edit, or delete another user's project (returns a 404 Not Found error).
+  - Clear validation error messages appear under form inputs if dates or required fields are wrong.
+  - Dark mode support across all cards, modals, tables, and loading states.
+- **Deferred**: 
+  - Project sharing or team collaboration roles.
+  - File attachments and PDF export features.
+
+### 6. What I Would Add With More Time
+If I had more time, I would add team workspace sharing, email notifications when a project due date is close, and automated end-to-end browser tests.
+
+### 7. AI Tooling Note
+To be completely transparent: I used AI coding assistants (like Gemini) to help accelerate frontend UI design styling, component layouts, and minor backend helpers. The overall architecture, database relationships, security scoping, and code quality reflect my own engineering decisions and code as per requirements given.

@@ -31,7 +31,7 @@ DB_PASSWORD=
 
 When you run the database seeder, a default user account is created and linked to all sample projects:
 
-- Email: `admin@kodakollectiv.com` (or `test@example.com`)
+- Email: `admin@kodakollectiv.com`
 - Password: `password`
 
 Each user can only see, create, edit, and delete their own projects.
