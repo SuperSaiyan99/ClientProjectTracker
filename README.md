@@ -123,3 +123,9 @@ Run TypeScript type checking:
 ```bash
 npm run types:check
 ```
+
+---
+
+## Reflection
+
+For my reflection, please refer to [REFLECTION.md](./REFLECTION.md).
